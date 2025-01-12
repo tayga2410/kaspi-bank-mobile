@@ -1,0 +1,76 @@
+.tabs {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  background-color: #f5f5f5;
+  border-radius: 16px;
+  width: 100%;
+  overflow: hidden;
+
+  &--international {
+    background-color: transparent;
+  }
+
+  &__indicator {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    height: calc(100% - 4px);
+    width: calc(50% - 2px);
+    background-color: #ffffff;
+    border-radius: 16px;
+    transition: transform 0.7s ease;
+    z-index: 1;
+
+    &--second {
+      transform: translateX(100%);
+    }
+
+    &--international {
+      background-color: transparent;
+      border-bottom: 1px solid red;
+      border-radius: unset;
+    }
+  }
+
+  
+
+&__button {
+  width: 50%;
+  margin: 2px;
+  padding: 10px;
+  background-color: transparent;
+  border-radius: 16px;
+  border: none;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &--secondary {
+    padding: 5px;
+  }
+
+  &--international {
+    background-color: transparent;
+    border-radius: unset;
+  }
+
+  &:focus-visible,
+  &:focus,
+  &:active {
+    outline: none;
+    background-color: transparent;
+  }
+
+  &.active {
+    color: #000;
+  }
+
+  &.active-international {
+    border-radius: unset;
+  }
+}
+}

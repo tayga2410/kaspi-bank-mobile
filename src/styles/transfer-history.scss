@@ -1,0 +1,35 @@
+.transfer-history {
+  &__item {
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__item-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+
+    p,
+    span {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  &__text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__text {
+    color:#b1b0b0;
+  }
+}
