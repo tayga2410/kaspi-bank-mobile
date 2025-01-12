@@ -32,7 +32,7 @@ const MyTransfers = () => {
   const [phone, setPhone] = useState("");
   const [card, setCard] = useState("");
   const [amount, setAmount] = useState("");
-  const [days, setDays] = useState("1");
+  const [days, setDays] = useState("");
   const [message, setMessage] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({
