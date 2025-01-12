@@ -32,6 +32,7 @@ const MyTransfers = () => {
   const [phone, setPhone] = useState("");
   const [card, setCard] = useState("");
   const [amount, setAmount] = useState("");
+  const [days, setDays] = useState("1");
   const [message, setMessage] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({
@@ -40,8 +41,8 @@ const MyTransfers = () => {
   });
 
   useEffect(() => {
-  setActiveTab("lend");
-}, []);
+    setActiveTab("lend");
+  }, []);
 
   const countries = [
     { code: "+996", flag: KyrgyzstanFlag },
@@ -475,139 +476,155 @@ const MyTransfers = () => {
       </AccordionItem>
 
       <AccordionItem title="Деньги в долг" icon={IconLoan}>
-      <div className="tabs tabs--loan">
-  <div
-    className={`tabs__indicator ${
-      loanTab === "request" ? "tabs__indicator--second" : ""
-    }`}
-  ></div>
-  {[
-    { key: "lend", label: "Выдать займ" },
-    { key: "request", label: "Запросить займ" },
-  ].map((tab) => (
-    <button
-      key={tab.key}
-      className={`tabs__button ${loanTab === tab.key ? "active" : ""}`}
-      onClick={() => setLoanTab(tab.key)}
-    >
-      {tab.label}
-    </button>
-  ))}
-</div>
+        <div className="tabs tabs--loan">
+          <div
+            className={`tabs__indicator ${
+              loanTab === "request" ? "tabs__indicator--second" : ""
+            }`}
+          ></div>
+          {[
+            { key: "lend", label: "Выдать займ" },
+            { key: "request", label: "Запросить займ" },
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              className={`tabs__button ${loanTab === tab.key ? "active" : ""}`}
+              onClick={() => setLoanTab(tab.key)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-       {loanTab === "lend" && (
-  <div className="transfers__lend">
-    <div className="transfers__loan-request">
-      <p>Пользователь: Эльдар</p>
-      <p>Номер телефона: +770000000</p>
-      <p>Сумма заявки: 10000 тенге</p>
-      <div className="transfers__action">
-        <input
-          className="transfers__input transfers__input--amount"
-          type="number"
-          placeholder="Скорректируйте сумму"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <button
-          className="transfers__button"
-          onClick={() => alert("Заявка подтверждена")}
-        >
-          Подтвердить
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+        {loanTab === "lend" && (
+          <div className="transfers__lend">
+            <div className="transfers__loan-request">
+              <p>Пользователь: Эльдар</p>
+              <p>Номер телефона: +770000000</p>
+              <p>Сумма заявки: 10000 тенге</p>
+              <p>Дней до возврата: 14</p>
+              <div className="transfers__action">
+                <input
+                  className="transfers__input transfers__input--amount"
+                  type="number"
+                  placeholder="Скорректируйте сумму"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                <button
+                  className="transfers__button"
+                  onClick={() => alert("Заявка подтверждена")}
+                >
+                  Подтвердить
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
-{loanTab === "request" && (
-  !isRequesting ? (
-    <form
-      className="transfers__form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        setIsRequesting(true);
-        let progressValue = 0;
-        const interval = setInterval(() => {
-          progressValue += 3; 
-          setProgress(progressValue);
-          if (progressValue >= 100) {
-            clearInterval(interval);
-            setIsRequesting(false);
-            alert("Заявка одобрена!");
-          }
-        }, 100); 
-      }}
-    >
-      <div className="transfers__input-wrapper">
-        <label htmlFor="phone" className="transfers__label"></label>
-        <input
-          id="phone"
-          className="transfers__input"
-          type="tel"
-          placeholder="Введите номер телефона"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </div>
-      <div className="transfers__input-wrapper">
-        <label htmlFor="amount" className="transfers__label"></label>
-        <input
-          id="amount"
-          className="transfers__input"
-          type="number"
-          placeholder="Введите сумму"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-      </div>
-      <div className="transfers__checkbox-wrapper">
-        <input
-          id="agree"
-          type="checkbox"
-          checked={isAgreed}
-          onChange={() => setIsAgreed(!isAgreed)}
-        />
-        <label htmlFor="agree">Ознакомлен с условиями банка</label>
-      </div>
-      <button
-        type="submit"
-        className="transfers__button"
-        disabled={!isAgreed}
-      >
-        Отправить заявку
-      </button>
-    </form>
-  ) : (
-    <div className="transfers__progress">
-      <p>Банк принимает решение...</p>
-      <div className="transfers__progress-circle-wrapper">
-        <svg className="transfers__progress-circle" width="100" height="100">
-          <circle
-            className="transfers__progress-circle-bg"
-            cx="50"
-            cy="50"
-            r="45"
-            strokeWidth="10"
-          />
-          <circle
-            className="transfers__progress-circle-fg"
-            cx="50"
-            cy="50"
-            r="45"
-            strokeWidth="10"
-            style={{
-              strokeDasharray: 283, 
-              strokeDashoffset: (283 * (100 - progress)) / 100, 
-            }}
-          />
-        </svg>
-      </div>
-    </div>
-  )
-)}
-
-
+        {loanTab === "request" &&
+          (!isRequesting ? (
+            <form
+              className="transfers__form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setIsRequesting(true);
+                let progressValue = 0;
+                const interval = setInterval(() => {
+                  progressValue += 3;
+                  setProgress(progressValue);
+                  if (progressValue >= 100) {
+                    clearInterval(interval);
+                    setIsRequesting(false);
+                    alert("Заявка одобрена!");
+                  }
+                }, 100);
+              }}
+            >
+              <div className="transfers__input-wrapper">
+                <label htmlFor="phone" className="transfers__label"></label>
+                <input
+                  id="phone"
+                  className="transfers__input"
+                  type="tel"
+                  placeholder="Введите номер телефона"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+              <div className="transfers__input-wrapper">
+                <label htmlFor="amount" className="transfers__label"></label>
+                <input
+                  id="amount"
+                  className="transfers__input"
+                  type="number"
+                  placeholder="Введите сумму"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+              </div>
+              <div className="transfers__input-wrapper">
+                <label htmlFor="days" className="transfers__label">
+                </label>
+                <input
+                  id="days"
+                  className="transfers__input transfers__input--days"
+                  type="number"
+                  min="1"
+                  max="365"
+                  placeholder="Введите количество дней"
+                  value={days}
+                  onChange={(e) => setDays(e.target.value)}
+                />
+              </div>
+              <div className="transfers__checkbox-wrapper">
+                <input
+                  id="agree"
+                  type="checkbox"
+                  checked={isAgreed}
+                  onChange={() => setIsAgreed(!isAgreed)}
+                />
+                <label htmlFor="agree">Ознакомлен с условиями банка</label>
+              </div>
+              <button
+                type="submit"
+                className="transfers__button"
+                disabled={!isAgreed}
+              >
+                Отправить заявку
+              </button>
+            </form>
+          ) : (
+            <div className="transfers__progress">
+              <p>Банк принимает решение...</p>
+              <div className="transfers__progress-circle-wrapper">
+                <svg
+                  className="transfers__progress-circle"
+                  width="100"
+                  height="100"
+                >
+                  <circle
+                    className="transfers__progress-circle-bg"
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    strokeWidth="10"
+                  />
+                  <circle
+                    className="transfers__progress-circle-fg"
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    strokeWidth="10"
+                    style={{
+                      strokeDasharray: 283,
+                      strokeDashoffset: (283 * (100 - progress)) / 100,
+                    }}
+                  />
+                </svg>
+              </div>
+            </div>
+          ))}
       </AccordionItem>
 
       {isPopupOpen && renderPopup()}
